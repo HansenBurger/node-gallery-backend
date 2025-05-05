@@ -1,1 +1,47 @@
-# 项目配置项
+# config.yaml
+app:
+  name: Node Gallery
+  version: 0.1.0
+
+jwt:
+  secret_key: your_jwt_secret_key
+  algorithm: HS256
+  access_token_expire_minutes: 30
+
+sever_database:
+  host: localhost
+  port: 5432
+  username: postgres
+  password: 985050
+
+logging:
+  version: 1
+  disable_existing_loggers: false
+  formatters:
+    standard:
+      format: "%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+    json:
+      format: "{ \"time\": \"%(asctime)s\", \"level\": \"%(levelname)s\", \"module\": \"%(name)s\", \"message\": \"%(message)s\" }"
+  handlers:
+    console:
+      class: logging.StreamHandler
+      level: DEBUG
+      formatter: standard
+    file:
+      class: logging.handlers.TimedRotatingFileHandler
+      level: INFO
+      formatter: json
+      filename: logs/app.log
+      when: 'midnight'
+      backupCount: 7
+      encoding: utf-8
+      utc: false  # 使用本地时间分割文件 [[2]]
+  loggers:
+    uvicorn:
+      handlers: [console, file]
+      level: INFO
+      propagate: false
+    app:
+      handlers: [console, file]
+      level: DEBUG
+      propagate: false
