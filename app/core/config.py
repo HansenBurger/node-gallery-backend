@@ -3,13 +3,12 @@ from typing import Dict, Any
 from pathlib import Path
 from pydantic import BaseSettings
 
-# 读取YAML配置文件 [[1]][[2]]
+
 def load_yaml_config() -> Dict[str, Any]:
     config_path = Path(__file__).parent.parent / "config.yaml"
     with open(config_path, "r", encoding="utf-8") as f:
         return yaml.safe_load(f)
 
-# 配置类 [[4]][[6]]
 class Settings(BaseSettings):
     # 基础配置
     title: str = "Node Gallery"
